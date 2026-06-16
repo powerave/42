@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",							// Version de JS générée (moderne)
+    "useDefineForClassFields": true,			// Pour les classes (Vue 3)
+    "module": "ESNext",							// Utilise le système de modules moderne
+    "moduleResolution": "Bundler",				// Vite s’occupe de la résolution des modules
+    "strict": true,								// ← Très important ! Active toutes les vérifications strictes
+    "jsx": "preserve",							// Pour les fichiers .vue
+    "resolveJsonModule": true,					// Permet d’importer des fichiers .json
+    "isolatedModules": true,					// Important pour Vite
+    "esModuleInterop": true,					// Meilleure compatibilité avec les modules
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],	// APIs disponibles (window, document, etc.)
+    "types": ["vite/client"]					// Types spécifiques à Vite
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "vite.config.ts"]
+}

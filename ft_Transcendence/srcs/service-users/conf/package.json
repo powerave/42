@@ -1,0 +1,31 @@
+{
+	"name": "service-users",
+	"version": "1.0.0",
+	"description": "service users for transcendence",
+	"main": "server.js",
+	"type": "module",
+	"scripts": {
+		"start": "node server.js",
+		"dev": "nodemon server.js",
+		"prisma:generate": "prisma generate"
+	},
+	"author": "jschmitz",
+	"license": "ISC",
+	"prisma": {
+    	"seed": "node prisma/seed_test_users.js"
+  	},
+	"dependencies": {
+		"@prisma/client": "^5.10.2",
+		"express": "^5.1.0",
+		"bcryptjs": "^2.4.3",
+		"uuid": "^10.0.0",
+		"cors": "^2.8.5",
+		"multer": "^1.4.5-lts.1",
+		"jsonwebtoken": "^9.0.2",
+		"cookie-parser": "^1.4.6"
+	},
+	"devDependencies": {
+		"prisma": "^5.10.2",
+		"nodemon": "^3.0.0"
+	}
+}

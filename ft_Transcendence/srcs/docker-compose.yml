@@ -1,0 +1,349 @@
+services:
+  nginx:
+    #image: nginx:alpine
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    container_name: nginx
+    ports:
+      - "0.0.0.0:8443:443"
+    volumes:
+     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+     #- ./frontend:/usr/share/nginx/html
+    depends_on:
+      - bff
+    networks:
+      - public-network
+      - minio-network
+    secrets:
+      - ca_crt
+      - nginx_crt
+      - nginx_key
+
+  bff:
+    build: ./bff
+    container_name: bff
+    environment:
+      - PORT=${PORT_BFF}
+      - PORT_STORAGE=${PORT_STORAGE}
+      - PORT_USERS=${PORT_USERS}
+      - REDIS_SECRET=${REDIS_SECRET}
+      - REDIS_URL=${REDIS_URL}
+      - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+      - NODE_EXTRA_CA_CERTS=/run/secrets/ca_crt
+      - MINIO_PUBLIC_URL=${MINIO_PUBLIC_URL}
+      - PORT_MINIO_INT=${PORT_MINIO_INT}
+      - MINIO_BUCKET=${MINIO_BUCKET}
+    depends_on:
+      - redis      
+      - service-users
+      - service-game
+      - service-token
+      - service-storage
+      - minio
+    networks:
+      - public-network
+      - users-network
+      - storage-network
+      - token-network
+      - game-network
+    ports:
+     - "3042:3042"
+    secrets:
+      - ca_crt
+      - bff_crt
+      - bff_key
+
+  frontend-dev:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      target: dev
+    container_name: frontend-dev
+    ports:
+      - "0.0.0.0:5173:5173"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+    profiles:
+      - dev
+
+  service-users:
+    build: ./service-users
+    container_name: users
+    volumes:
+      - ./service-users/public/uploads:/app/public/uploads # Volume for uploads (avatars)
+    #ports:
+      #- "3000:3000"
+    environment:
+      - DB_HOST=users-db
+      - PORT_DB=${PORT_DB}
+      - POSTGRES_DB=${USERS_DB}
+      - POSTGRES_USER=${USERS_DB_USER}
+      - POSTGRES_PASSWORD=${USERS_DB_PASSWORD}
+      - DATABASE_URL=postgresql://${USERS_DB_USER}:${USERS_DB_PASSWORD}@users-db:${PORT_DB}/${USERS_DB}
+      - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+      - ENCRYPTION_ALGO=${ENCRYPTION_ALGO}
+      - MINIO_PUBLIC_URL=${MINIO_PUBLIC_URL}
+      - PORT_MINIO_INT=${PORT_MINIO_INT}
+      - MINIO_BUCKET=${MINIO_BUCKET}
+      - NODE_EXTRA_CA_CERTS=/run/secrets/ca_crt
+      - PORT=${PORT_USERS}
+      - T1_UUID=${T1_UUID}
+      - T2_UUID=${T2_UUID}
+      - T3_UUID=${T3_UUID}
+      - T4_UUID=${T4_UUID}
+    depends_on:
+      users-db:
+        condition: service_healthy
+    networks:
+      - users-network
+    secrets:
+      - ca_crt
+      - service_users_crt
+      - service_users_key
+
+  users-db:
+    image: docker.io/library/postgres:16-alpine
+    container_name: users-db
+    networks:
+      - users-network
+    environment:
+      - POSTGRES_DB=${USERS_DB}
+      - POSTGRES_USER=${USERS_DB_USER}
+      - POSTGRES_PASSWORD=${USERS_DB_PASSWORD}
+    volumes:
+      - users_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${USERS_DB_USER} -d ${USERS_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  service-game:
+   build: ./service-game
+   container_name: game
+   environment:
+    - DATABASE_URL=postgresql://${GAME_DB_USER}:${GAME_DB_PASSWORD}@game-db:${PORT_DB}/${GAME_DB}
+    - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+    - T1_UUID=${T1_UUID}
+    - T2_UUID=${T2_UUID}
+    - T3_UUID=${T3_UUID}
+    - T4_UUID=${T4_UUID}
+   depends_on:
+      game-db:
+        condition: service_healthy
+   stdin_open: true
+   tty: true
+   networks:
+    - game-network
+   secrets:
+     - ca_crt
+     - service_game_crt
+     - service_game_key
+   ports:
+     - "8000:8000"
+
+  game-db:
+    image: docker.io/library/postgres:16-alpine
+    container_name: game-db
+    networks:
+      - game-network
+    environment:
+      - POSTGRES_DB=${GAME_DB}
+      - POSTGRES_USER=${GAME_DB_USER}
+      - POSTGRES_PASSWORD=${GAME_DB_PASSWORD}
+    volumes:
+      - game_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${GAME_DB_USER}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  service-token:
+    build: ./service-token
+    container_name: token
+    environment:
+      - DB_HOST=token-db
+      - DATABASE_URL=postgresql://${TOKEN_DB_USER}:${TOKEN_DB_PASSWORD}@token-db:${PORT_DB}/${TOKEN_DB}
+      - PORT_DB=${PORT_DB}
+      - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+      - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
+      - ENCRYPTION_ALGO=${ENCRYPTION_ALGO}
+      - TOKEN_ACC_EXP=${TOKEN_ACC_EXP}
+      - NODE_EXTRA_CA_CERTS=/run/secrets/ca_crt
+      - PORT=${PORT_MS_TOKEN}
+    depends_on:
+      token-db:
+        condition: service_healthy
+    networks:
+      - token-network
+    #ports:
+      #- "3002:3002"
+    secrets:
+      - ca_crt
+      - service_token_crt
+      - service_token_key
+
+  token-db:
+    image: docker.io/library/postgres:16-alpine
+    container_name: token-db
+    networks:
+      - token-network
+    environment:
+      - POSTGRES_DB=${TOKEN_DB}
+      - POSTGRES_USER=${TOKEN_DB_USER}
+      - POSTGRES_PASSWORD=${TOKEN_DB_PASSWORD}
+    volumes:
+      - token_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${TOKEN_DB_USER} -d ${TOKEN_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  storage-db:
+    image: docker.io/library/postgres:16-alpine
+    container_name: storage-db
+    networks:
+      - storage-network
+    environment:
+      - POSTGRES_DB=${STORAGE_DB}
+      - POSTGRES_USER=${STORAGE_DB_USER}
+      - POSTGRES_PASSWORD=${STORAGE_DB_PASSWORD}
+    volumes:
+      - storage_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${STORAGE_DB_USER} -d ${STORAGE_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+  
+  minio:
+     image: docker.io/minio/minio:latest
+     container_name: minio
+    #  ports:
+    #    - "${PORT_MINIO_INT}:${PORT_MINIO_INT}" #API port
+    #    - "${PORT_MINIO_GUI}:${PORT_MINIO_GUI}" # For console/UI
+     environment:
+       - PORT_MINIO_INT=${PORT_MINIO_INT}
+       - PORT_MINIO_GUI=${PORT_MINIO_GUI}
+       - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+       - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+       - MINIO_BUCKET=${MINIO_BUCKET}
+     volumes:
+       - minio_data:/data
+     command: server /data --address ":${PORT_MINIO_INT}" --console-address ":${PORT_MINIO_GUI}" --certs-dir /certs
+     networks:
+       - storage-network
+       - minio-network
+     secrets:
+      - source: minio_crt
+        target: /certs/public.crt
+      - source: minio_key
+        target: /certs/private.key
+      - source: ca_crt
+        target: /certs/CAs/public.crt
+
+  service-storage:
+    build: ./service-storage
+    container_name: storage
+    restart: always
+    #ports:
+      #- "${PORT_STORAGE}:${PORT_STORAGE}"
+    environment:
+      - DB_HOST=storage-db
+      - DATABASE_URL=postgresql://${STORAGE_DB_USER}:${STORAGE_DB_PASSWORD}@storage-db:${PORT_DB}/${STORAGE_DB}
+      - JWT_ACCESS_SECRET=${JWT_ACCESS_SECRET}
+      - ENCRYPTION_ALGO=${ENCRYPTION_ALGO}
+      - PORT_DB=${PORT_DB}
+      - PORT=${PORT_STORAGE}
+      - POSTGRES_DB=${STORAGE_DB}
+      - POSTGRES_USER=${STORAGE_DB_USER}
+      - POSTGRES_PASSWORD=${STORAGE_DB_PASSWORD}
+      - PORT_MINIO_INT=${PORT_MINIO_INT}
+      - PORT_MINIO_GUI=${PORT_MINIO_GUI}
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD}
+      - MINIO_PUBLIC_URL=${MINIO_PUBLIC_URL}
+      - MINIO_BUCKET=${MINIO_BUCKET}
+      - NODE_EXTRA_CA_CERTS=/run/secrets/ca_crt
+    depends_on:
+      storage-db:
+        condition: service_healthy
+      minio:
+        condition: service_started
+    networks:
+      - storage-network
+    secrets:
+      - ca_crt
+      - service_storage_crt
+      - service_storage_key
+
+  redis:
+    image: docker.io/library/redis:7-alpine
+    container_name: redis
+    networks:
+      - public-network
+
+volumes:
+  storage_data:
+  users_data:
+  game_data:
+  token_data:
+  frontend_node_modules:
+  minio_data:
+
+#BFF has to be in the public-network as well
+networks:
+  public-network:
+    name: public-network
+    driver: bridge
+  game-network:
+   name: game-network
+   driver: bridge
+  users-network:
+    name: users-network
+    driver: bridge
+  token-network:
+    name: token-network
+    driver: bridge
+  storage-network:
+    name: storage-network
+    driver: bridge
+  minio-network:
+    name: minio-network
+    driver: bridge
+
+secrets:
+  ca_crt:
+    file: ../certs/ca.crt
+  nginx_crt:
+    file: ../certs/nginx/nginx.crt
+  nginx_key:
+    file: ../certs/nginx/nginx.key
+  bff_crt:
+    file: ../certs/bff/bff.crt
+  bff_key:
+    file: ../certs/bff/bff.key
+  minio_crt:
+    file: ../certs/minio/minio.crt
+  minio_key:
+    file: ../certs/minio/minio.key
+  service_users_crt:
+    file: ../certs/service-users/service-users.crt
+  service_users_key:
+    file: ../certs/service-users/service-users.key
+  service_storage_crt:
+    file: ../certs/service-storage/service-storage.crt
+  service_storage_key:
+    file: ../certs/service-storage/service-storage.key
+  service_token_crt:
+    file: ../certs/service-token/service-token.crt
+  service_token_key:
+    file: ../certs/service-token/service-token.key
+  service_game_crt:
+    file: ../certs/service-game/service-game.crt
+  service_game_key:
+    file: ../certs/service-game/service-game.key

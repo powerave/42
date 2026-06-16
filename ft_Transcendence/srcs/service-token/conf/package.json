@@ -1,0 +1,27 @@
+{
+	"name": "service-signup",
+	"version": "1.0.0",
+	"description": "service signup for transcendence",
+	"main": "server.js",
+	"type": "module",
+	"scripts": {
+		"start": "node server.js",
+		"dev": "nodemon server.js",
+		"prisma:generate": "prisma generate",
+		"prisma:pull": "prisma db pull"
+	},
+	"author": "audmalec",
+	"license": "ISC",
+	"dependencies": {
+		"@prisma/client": "^5.0.0",
+		"express": "^5.1.0",
+		"bcrypt": "^5.1.1",
+		"jsonwebtoken": "^9.0.2",
+		"uuid": "^10.0.0",
+		"cookie-parser": "^1.4.6"
+	},
+	"devDependencies": {
+		"prisma": "^5.0.0",
+		"nodemon": "^3.0.0"
+	}
+}

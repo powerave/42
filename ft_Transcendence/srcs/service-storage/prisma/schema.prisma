@@ -1,0 +1,19 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Upload {
+  id             Int          @id @default(autoincrement())
+  owner_uuid     String       //UUID from the User service
+  file_path      String       @unique //is unique because filename was created with UUID. This is used to identify the file
+  original_name  String      
+  file_type      String      //AVATAR, OTHER
+  created_at     DateTime     @default(now())
+
+   @@map("uploads")
+}

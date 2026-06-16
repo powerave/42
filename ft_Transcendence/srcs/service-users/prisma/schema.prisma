@@ -1,0 +1,41 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id				BigInt		@id @default(autoincrement())
+  user_uuid			String 		@unique @db.Uuid
+  first_name		String       
+  last_name			String
+  username			String
+  email				String		@unique
+  password			String
+  avatar			String		@default("AVATAR/default_avatar.jpg")
+  xp          Int       @default(0)
+
+  sentFriendships     Friendship[] @relation("FriendshipsSent")
+  receivedFriendships Friendship[] @relation("FriendshipsReceived")
+
+  @@map("users")
+}
+
+model Friendship {
+  id             Int      @id @default(autoincrement())
+  requester_uuid String   @db.Uuid
+  receiver_uuid  String   @db.Uuid
+  status         String   @default("PENDING") // Possible states are: PENDING, ACCEPTED, DECLINED, BLOCKED
+  created_at     DateTime @default(now())
+
+  requester      User     @relation("FriendshipsSent", fields: [requester_uuid], references: [user_uuid], onDelete: Cascade)
+  receiver       User     @relation("FriendshipsReceived", fields: [receiver_uuid], references: [user_uuid], onDelete: Cascade)
+
+  // A user can never send friend invites to the same person twice
+  @@unique([requester_uuid, receiver_uuid])
+
+  @@map("friendships")
+}
