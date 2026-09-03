@@ -9,7 +9,13 @@
 ## ⚡ // SYSTEM_OVERVIEW
 
 > **`> ATTEMPTING_CONNECTION...`**  
-> **`> ACCESS_GRANTED: WELCOME_TO_THE_MATRIX`**  
+> **`> ACCESS_GRANTED: WELCOME_TO_THE_MATRIX`**
+
+<div align="center">
+
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&duration=3000&pause=900&color=00FF66&background=0D0D0D00&center=true&vCenter=true&width=750&lines=42_PARIS+%3A%3A+SOFTWARE_ENGINEERING;Libft+%3A%3A+C+%2F+Memory+%2F+Linked_Lists;ft_printf+%3A%3A+Variadic_Args+%2F+Custom_Printf;Get_next_line+%3A%3A+File_Descriptors+%2F+Buffer;Pipex+%3A%3A+Pipes+%2F+Redirections_in_C;Push_swap+%3A%3A+Sorting_Algorithms;So_long+%3A%3A+2D_Game+%2F+SDL;Philosophers+%3A%3A+Threads+%2F+Mutexes+%2F+Concurrency;Cub3d+%3A%3A+Raycasting+%2F+3D_Engine;Minishell+%3A%3A+AST+%2F+Builtins+%2F+Signals;CPP_Modules+%3A%3A+OOP+%2F+Templates+%2F+STL;Webserv+%3A%3A+HTTP1.1+%2F+epoll+%2F+kqueue;ft_Transcendence+%3A%3A+NestJS+%2F+Vue3+%2F+WebSockets" alt="Typing SVG" />
+
+</div>
 
 Bienvenue dans le journal de bord de mon cursus à **École 42 Paris**. Voici l'ensemble des modules, algorithmes, moteurs graphiques et architectures réseaux développés au cours de ma progression.
 
@@ -89,6 +95,12 @@ Bienvenue dans le journal de bord de mon cursus à **École 42 Paris**. Voici l'
 ---
 
 ## 📊 // SYSTEM_STATS
+
+<div align="center">
+
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=500&size=18&duration=2500&pause=700&color=00FF66&background=0D0D0D00&center=true&vCenter=true&width=650&lines=C+%2F%2F+C%2B%2B+%2F%2F+TypeScript+%2F%2F+SQL;Linux+%2F%2F+Unix+%2F%2F+Docker+%2F%2F+Make;NestJS+%2F%2F+Vue3+%2F%2F+WebSockets+%2F%2F+Nginx+%2F%2F+REST" alt="Stack SVG" />
+
+</div>
 
 <div align="center">
 
