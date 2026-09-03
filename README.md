@@ -53,7 +53,7 @@ Bienvenue dans le journal de bord de mon cursus à **École 42 Paris**. Voici l'
 | Projet | Description / Focus | Techs |
 | :--- | :--- | :---: |
 | **`Push_swap`** | Algorithme de tri optimisé sur deux piles avec un ensemble d'instructions restreint. | `C` `Algo` |
-| **`Pipex`** | Reproduction du comportement des pipes shell (`&#124;`) et redirections en C. | `C` `Unix` `Fork` |
+| **`Pipex`** | Reproduction du comportement des pipes shell (`\|`) et redirections en C. | `C` `Unix` `Fork` |
 
 ---
 
