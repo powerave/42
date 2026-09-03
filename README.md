@@ -24,6 +24,7 @@ Bienvenue dans le journal de bord de mon cursus à **École 42 Paris**. Voici l'
 ## 📐 // TECH_STACK_MATRIX
 
 <div align="center">
+  
 ```
 +-----------------------------------------------------------------------+
 |  LANGAGES   |  C  |  C++  |  TYPESCRIPT  |  SQL                       |
