@@ -1,15 +1,19 @@
 <div align="center">
-  <svg width="100%" height="120" viewBox="0 0 900 120" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
-    <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="monospace" font-size="22" font-weight="bold" fill="#00FF66" xml:space="preserve">
+
+<img src="assets/system42-banner.svg" alt="SYSTEM_42" width="100%"/>
+
+</div>
+
+```
+
 ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗    ██╗  ██╗██████╗ 
 ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║    ██║  ██║╚════██╗
 ███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║    ███████║ █████╔╝
 ╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║    ╚════██║██╔═══╝ 
 ███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║         ██║███████╗
 ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝         ╚═╝╚══════╝
-    </text>
-  </svg>
-</div>
+
+```
 ---
 
 ## ⚡ // SYSTEM_OVERVIEW
