@@ -1,10 +1,14 @@
+<div align="center">
+  <img src="https://capsule-render.vercel.app/api?type=slice&color=000000&height=200&section=header&text=SYSTEM%2042&fontSize=70&fontColor=00FF66&stroke=00FF66&strokeWidth=2" width="100%" />
+</div>
+```
 ███████╗██╗   ██╗███████╗████████╗███████╗███╗   ███╗    ██╗  ██╗██████╗ 
 ██╔════╝╚██╗ ██╔╝██╔════╝╚══██╔══╝██╔════╝████╗ ████║    ██║  ██║╚════██╗
 ███████╗ ╚████╔╝ ███████╗   ██║   █████╗  ██╔████╔██║    ███████║ █████╔╝
 ╚════██║  ╚██╔╝  ╚════██║   ██║   ██╔══╝  ██║╚██╔╝██║    ╚════██║██╔═══╝ 
 ███████║   ██║   ███████║   ██║   ███████╗██║ ╚═╝ ██║         ██║███████╗
 ╚══════╝   ╚═╝   ╚══════╝   ╚═╝   ╚══════╝╚═╝     ╚═╝         ╚═╝╚══════╝
-
+```
 ---
 
 ## ⚡ // SYSTEM_OVERVIEW
@@ -19,7 +23,7 @@ Bienvenue dans le journal de bord de mon cursus à **École 42 Paris**. Voici l'
 ## 📐 // TECH_STACK_MATRIX
 
 <div align="center">
-
+```
 +-----------------------------------------------------------------------+
 |  LANGAGES   |  C  |  C++  |  TYPESCRIPT  |  SQL                       |
 +-------------+---------------------------------------------------------+
@@ -27,7 +31,7 @@ Bienvenue dans le journal de bord de mon cursus à **École 42 Paris**. Voici l'
 +-------------+---------------------------------------------------------+
 |  WEB/NETWORK|  NESTJS  |  VUE 3  |  WEBSOCKETS  |  NGINX  |  REST     |
 +-----------------------------------------------------------------------+
-
+```
 </div>
 
 <br/>
