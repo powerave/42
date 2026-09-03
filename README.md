@@ -93,8 +93,8 @@ Bienvenue dans le journal de bord de mon cursus à **École 42 Paris**. Voici l'
 <div align="center">
 
 <!-- CARTE STATS (Fond Sombre #0D0D0D + Texte Vert Néon #00FF66) -->
-<img src="https://github-readme-stats.vercel.app/api?username=POWERAVE&show_icons=true&bg_color=0D0D0D&title_color=00FF66&text_color=00FF66&icon_color=00FF66&border_color=00FF66&hide_border=false" width="48%" />
-<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=POWERAVE&layout=compact&bg_color=0D0D0D&title_color=00FF66&text_color=00FF66&icon_color=00FF66&border_color=00FF66&hide_border=false" width="48%" />
+<img src="https://github-readme-stats.vercel.app/api?username=powerave&show_icons=true&bg_color=0D0D0D&title_color=00FF66&text_color=00FF66&icon_color=00FF66&border_color=00FF66&hide_border=false" width="48%" />
+<img src="https://github-readme-stats.vercel.app/api/top-langs/?username=powerave&layout=compact&bg_color=0D0D0D&title_color=00FF66&text_color=00FF66&icon_color=00FF66&border_color=00FF66&hide_border=false" width="48%" />
 
 </div>
 
