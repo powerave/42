@@ -1,1 +1,21 @@
-
+<svg width="900" height="140" viewBox="0 0 900 140" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .glow {
+        font-family: 'Courier New', monospace;
+        font-weight: bold;
+        fill: #00FF66;
+        filter: drop-shadow(0 0 6px #00FF66) drop-shadow(0 0 14px #00FF6699);
+      }
+    </style>
+  </defs>
+  <rect width="900" height="140" fill="#0d1117"/>
+  <text x="50%" y="55%" dominant-baseline="middle" text-anchor="middle"
+        class="glow" font-size="46" letter-spacing="6">
+    SYSTEM_42
+  </text>
+  <text x="50%" y="85%" dominant-baseline="middle" text-anchor="middle"
+        fill="#00FF66" opacity="0.6" font-family="'Courier New', monospace" font-size="14" letter-spacing="4">
+    // ACCESS_GRANTED :: WELCOME_TO_THE_MATRIX
+  </text>
+</svg>
